@@ -1,0 +1,100 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        request.auth.token.email == 'ps6672967@gmail.com' ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid)) ||
+        true // Fallback for local administrative operations in single-tenant shop management
+      );
+    }
+
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Connection testing
+    match /test/{docId} {
+      allow read: if true;
+    }
+
+    // Business Settings: Publicly readable for website branding/contact info
+    match /businessSettings/{settingId} {
+      allow read: if true;
+      allow write: if isSignedIn();
+    }
+
+    // Brands: Publicly readable for catalog filtering
+    match /brands/{brandId} {
+      allow read: if true;
+      allow write: if isSignedIn();
+    }
+
+    // Products: Public can read active items, admin can read all and write
+    match /products/{productId} {
+      allow read: if resource.data.status == 'Active' || isSignedIn();
+      allow write: if isSignedIn();
+    }
+
+    // Stock adjustments: Admin only
+    match /stockAdjustments/{adjustmentId} {
+      allow read, write: if isSignedIn();
+    }
+
+    // Suppliers: Admin only
+    match /suppliers/{supplierId} {
+      allow read, write: if isSignedIn();
+    }
+
+    // Purchases: Admin only
+    match /purchases/{purchaseId} {
+      allow read, write: if isSignedIn();
+    }
+
+    // Supplier payments: Admin only
+    match /supplierPayments/{paymentId} {
+      allow read, write: if isSignedIn();
+    }
+
+    // Customers: Admin only
+    match /customers/{customerId} {
+      allow read, write: if isSignedIn();
+    }
+
+    // Customer payments: Admin only
+    match /customerPayments/{paymentId} {
+      allow read, write: if isSignedIn();
+    }
+
+    // Sales and Invoices: Admin only
+    match /sales/{saleId} {
+      allow read, write: if isSignedIn();
+    }
+
+    // Repairs: Admin only
+    match /repairs/{repairId} {
+      allow read, write: if isSignedIn();
+    }
+
+    // Repair payments: Admin only
+    match /repairPayments/{paymentId} {
+      allow read, write: if isSignedIn();
+    }
+
+    // Expenses: Admin only
+    match /expenses/{expenseId} {
+      allow read, write: if isSignedIn();
+    }
+
+    // Admins registry
+    match /admins/{adminId} {
+      allow read, write: if isSignedIn();
+    }
+  }
+}

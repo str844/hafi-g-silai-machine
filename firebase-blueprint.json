@@ -1,0 +1,326 @@
+{
+  "entities": {
+    "BusinessSettings": {
+      "title": "BusinessSettings",
+      "description": "Store configuration and public contact info for Hafiz G Silai Machine",
+      "type": "object",
+      "properties": {
+        "businessName": { "type": "string", "maxLength": 100 },
+        "tagline": { "type": "string", "maxLength": 200 },
+        "address": { "type": "string", "maxLength": 300 },
+        "phone": { "type": "string", "maxLength": 20 },
+        "whatsapp": { "type": "string", "maxLength": 20 },
+        "email": { "type": "string", "maxLength": 100 },
+        "aboutText": { "type": "string", "maxLength": 1000 },
+        "invoicePrefix": { "type": "string", "maxLength": 10 },
+        "gstEnabled": { "type": "boolean" },
+        "defaultGstPercent": { "type": "number" },
+        "allowNegativeStock": { "type": "boolean" },
+        "lowStockThreshold": { "type": "number" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["businessName", "address", "phone"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "Sewing machines, spare parts, and accessories inventory",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "maxLength": 150 },
+        "sku": { "type": "string", "maxLength": 50 },
+        "category": { "type": "string", "enum": ["Sewing Machines", "Spare Parts", "Accessories"] },
+        "brand": { "type": "string", "maxLength": 80 },
+        "model": { "type": "string", "maxLength": 80 },
+        "description": { "type": "string", "maxLength": 1000 },
+        "purchasePrice": { "type": "number" },
+        "sellingPrice": { "type": "number" },
+        "currentStock": { "type": "number" },
+        "minStock": { "type": "number" },
+        "unit": { "type": "string", "maxLength": 20 },
+        "status": { "type": "string", "enum": ["Active", "Inactive"] },
+        "imageUrl": { "type": "string", "maxLength": 1000 },
+        "serialNumber": { "type": "string", "maxLength": 100 },
+        "warrantyPeriod": { "type": "string", "maxLength": 100 },
+        "partNumber": { "type": "string", "maxLength": 80 },
+        "compatibleModels": { "type": "string", "maxLength": 250 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["name", "category", "brand", "sellingPrice", "currentStock", "status"]
+    },
+    "Brand": {
+      "title": "Brand",
+      "description": "Machine and spare part brands",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "maxLength": 80 },
+        "category": { "type": "string", "maxLength": 50 },
+        "description": { "type": "string", "maxLength": 300 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["name"]
+    },
+    "Supplier": {
+      "title": "Supplier",
+      "description": "Suppliers of sewing machines, parts, and accessories",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "maxLength": 120 },
+        "phone": { "type": "string", "maxLength": 20 },
+        "address": { "type": "string", "maxLength": 300 },
+        "notes": { "type": "string", "maxLength": 500 },
+        "totalPurchases": { "type": "number" },
+        "totalPaid": { "type": "number" },
+        "outstandingBalance": { "type": "number" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["name", "phone"]
+    },
+    "Purchase": {
+      "title": "Purchase",
+      "description": "Inward inventory purchase from supplier",
+      "type": "object",
+      "properties": {
+        "purchaseNumber": { "type": "string", "maxLength": 50 },
+        "supplierId": { "type": "string", "maxLength": 100 },
+        "supplierName": { "type": "string", "maxLength": 120 },
+        "purchaseDate": { "type": "string", "maxLength": 30 },
+        "productId": { "type": "string", "maxLength": 100 },
+        "productName": { "type": "string", "maxLength": 150 },
+        "quantity": { "type": "number" },
+        "purchasePrice": { "type": "number" },
+        "totalAmount": { "type": "number" },
+        "paidAmount": { "type": "number" },
+        "remainingAmount": { "type": "number" },
+        "paymentStatus": { "type": "string", "enum": ["Paid", "Partial", "Unpaid"] },
+        "notes": { "type": "string", "maxLength": 500 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["supplierId", "supplierName", "productId", "quantity", "purchasePrice", "totalAmount"]
+    },
+    "SupplierPayment": {
+      "title": "SupplierPayment",
+      "description": "Payment made to a supplier",
+      "type": "object",
+      "properties": {
+        "supplierId": { "type": "string", "maxLength": 100 },
+        "supplierName": { "type": "string", "maxLength": 120 },
+        "amount": { "type": "number" },
+        "paymentDate": { "type": "string", "maxLength": 30 },
+        "paymentMethod": { "type": "string", "enum": ["Cash", "UPI", "Bank", "Cheque", "Other"] },
+        "notes": { "type": "string", "maxLength": 300 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["supplierId", "amount", "paymentDate", "paymentMethod"]
+    },
+    "Customer": {
+      "title": "Customer",
+      "description": "Customer profiles, balances, and history",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "maxLength": 120 },
+        "phone": { "type": "string", "maxLength": 20 },
+        "address": { "type": "string", "maxLength": 300 },
+        "notes": { "type": "string", "maxLength": 500 },
+        "totalPurchases": { "type": "number" },
+        "totalPaid": { "type": "number" },
+        "outstandingBalance": { "type": "number" },
+        "advanceBalance": { "type": "number" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["name", "phone"]
+    },
+    "CustomerPayment": {
+      "title": "CustomerPayment",
+      "description": "Udhaari or advance payment received from customer",
+      "type": "object",
+      "properties": {
+        "customerId": { "type": "string", "maxLength": 100 },
+        "customerName": { "type": "string", "maxLength": 120 },
+        "type": { "type": "string", "enum": ["Udhaari Payment", "Advance"] },
+        "amount": { "type": "number" },
+        "paymentDate": { "type": "string", "maxLength": 30 },
+        "paymentMethod": { "type": "string", "enum": ["Cash", "UPI", "Bank", "Cheque", "Other"] },
+        "purpose": { "type": "string", "maxLength": 200 },
+        "notes": { "type": "string", "maxLength": 300 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["customerId", "type", "amount", "paymentDate", "paymentMethod"]
+    },
+    "Sale": {
+      "title": "Sale",
+      "description": "Sales order and billing invoice",
+      "type": "object",
+      "properties": {
+        "invoiceNumber": { "type": "string", "maxLength": 50 },
+        "customerId": { "type": "string", "maxLength": 100 },
+        "customerName": { "type": "string", "maxLength": 120 },
+        "customerPhone": { "type": "string", "maxLength": 20 },
+        "customerAddress": { "type": "string", "maxLength": 300 },
+        "saleDate": { "type": "string", "maxLength": 30 },
+        "items": { "type": "string", "maxLength": 5000 },
+        "subtotal": { "type": "number" },
+        "discount": { "type": "number" },
+        "gstPercent": { "type": "number" },
+        "gstAmount": { "type": "number" },
+        "total": { "type": "number" },
+        "advanceUsed": { "type": "number" },
+        "paidAmount": { "type": "number" },
+        "remainingAmount": { "type": "number" },
+        "paymentMethod": { "type": "string", "enum": ["Cash", "UPI", "Bank", "Cheque", "Udhaari"] },
+        "notes": { "type": "string", "maxLength": 500 },
+        "status": { "type": "string", "enum": ["Completed", "Cancelled"] },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["invoiceNumber", "customerName", "total", "paidAmount", "remainingAmount", "saleDate"]
+    },
+    "Repair": {
+      "title": "Repair",
+      "description": "Machine repair and service intake tickets",
+      "type": "object",
+      "properties": {
+        "repairId": { "type": "string", "maxLength": 50 },
+        "customerId": { "type": "string", "maxLength": 100 },
+        "customerName": { "type": "string", "maxLength": 120 },
+        "customerPhone": { "type": "string", "maxLength": 20 },
+        "machineType": { "type": "string", "maxLength": 80 },
+        "brand": { "type": "string", "maxLength": 80 },
+        "model": { "type": "string", "maxLength": 80 },
+        "serialNumber": { "type": "string", "maxLength": 100 },
+        "problemDescription": { "type": "string", "maxLength": 500 },
+        "accessoriesReceived": { "type": "string", "maxLength": 300 },
+        "estimatedCost": { "type": "number" },
+        "advancePayment": { "type": "number" },
+        "remainingAmount": { "type": "number" },
+        "finalPayment": { "type": "number" },
+        "receivedDate": { "type": "string", "maxLength": 30 },
+        "expectedDeliveryDate": { "type": "string", "maxLength": 30 },
+        "deliveredDate": { "type": "string", "maxLength": 30 },
+        "status": { "type": "string", "enum": ["Received", "Checking", "Repairing", "Waiting for Parts", "Ready", "Delivered", "Cancelled"] },
+        "technicianNotes": { "type": "string", "maxLength": 500 },
+        "finalNotes": { "type": "string", "maxLength": 500 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["repairId", "customerName", "customerPhone", "machineType", "problemDescription", "estimatedCost", "status"]
+    },
+    "RepairPayment": {
+      "title": "RepairPayment",
+      "description": "Payments received for repairs",
+      "type": "object",
+      "properties": {
+        "repairId": { "type": "string", "maxLength": 50 },
+        "customerName": { "type": "string", "maxLength": 120 },
+        "amount": { "type": "number" },
+        "paymentDate": { "type": "string", "maxLength": 30 },
+        "paymentMethod": { "type": "string", "enum": ["Cash", "UPI", "Bank", "Cheque", "Other"] },
+        "paymentType": { "type": "string", "enum": ["Advance", "Additional", "Final"] },
+        "notes": { "type": "string", "maxLength": 300 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["repairId", "amount", "paymentDate", "paymentMethod"]
+    },
+    "Expense": {
+      "title": "Expense",
+      "description": "Daily business expenses and operating costs",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "maxLength": 150 },
+        "category": { "type": "string", "enum": ["Shop", "Transport", "Electricity", "Salary", "Repair tools", "Miscellaneous", "Other"] },
+        "amount": { "type": "number" },
+        "expenseDate": { "type": "string", "maxLength": 30 },
+        "paymentMethod": { "type": "string", "enum": ["Cash", "UPI", "Bank", "Other"] },
+        "notes": { "type": "string", "maxLength": 300 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["title", "category", "amount", "expenseDate", "paymentMethod"]
+    },
+    "StockAdjustment": {
+      "title": "StockAdjustment",
+      "description": "Manual stock corrections and audit trail",
+      "type": "object",
+      "properties": {
+        "productId": { "type": "string", "maxLength": 100 },
+        "productName": { "type": "string", "maxLength": 150 },
+        "adjustmentType": { "type": "string", "enum": ["Add", "Subtract", "Set"] },
+        "quantity": { "type": "number" },
+        "previousStock": { "type": "number" },
+        "newStock": { "type": "number" },
+        "reason": { "type": "string", "maxLength": 300 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["productId", "adjustmentType", "quantity", "reason"]
+    },
+    "Admin": {
+      "title": "Admin",
+      "description": "Admin access document",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string", "maxLength": 100 },
+        "role": { "type": "string", "maxLength": 50 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["email", "role"]
+    }
+  },
+  "firestore": {
+    "/businessSettings/{settingId}": {
+      "schema": "BusinessSettings",
+      "description": "Store configuration and public contact info"
+    },
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "Products catalog and current stock levels"
+    },
+    "/brands/{brandId}": {
+      "schema": "Brand",
+      "description": "Machine and spare part brands"
+    },
+    "/suppliers/{supplierId}": {
+      "schema": "Supplier",
+      "description": "Suppliers and ledger balances"
+    },
+    "/purchases/{purchaseId}": {
+      "schema": "Purchase",
+      "description": "Purchase orders and stock additions"
+    },
+    "/supplierPayments/{paymentId}": {
+      "schema": "SupplierPayment",
+      "description": "Payments made to suppliers"
+    },
+    "/customers/{customerId}": {
+      "schema": "Customer",
+      "description": "Customers, udhaari balances, and advances"
+    },
+    "/customerPayments/{paymentId}": {
+      "schema": "CustomerPayment",
+      "description": "Udhaari and advance payments received from customers"
+    },
+    "/sales/{saleId}": {
+      "schema": "Sale",
+      "description": "Sales orders and invoices"
+    },
+    "/repairs/{repairId}": {
+      "schema": "Repair",
+      "description": "Repair and service intake records"
+    },
+    "/repairPayments/{paymentId}": {
+      "schema": "RepairPayment",
+      "description": "Payments received for repairs"
+    },
+    "/expenses/{expenseId}": {
+      "schema": "Expense",
+      "description": "Shop and operational expenses"
+    },
+    "/stockAdjustments/{adjustmentId}": {
+      "schema": "StockAdjustment",
+      "description": "Stock audit adjustment logs"
+    },
+    "/admins/{adminId}": {
+      "schema": "Admin",
+      "description": "Authoritative list of admin user IDs"
+    }
+  }
+}

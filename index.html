@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      (function () {
+        try {
+          var originalFetch = window.fetch;
+          Object.defineProperty(window, 'fetch', {
+            get: function () {
+              return originalFetch;
+            },
+            set: function (newFetch) {
+              originalFetch = newFetch;
+            },
+            configurable: true,
+            enumerable: true,
+          });
+        } catch (e) {}
+      })();
+    </script>
+    <title>Hafiz G Silai Machine - Sewing Machines, Parts & Services</title>
+    <meta name="description" content="Business website and admin management system for Hafiz G Silai Machine - sewing machines, spare parts, repair services, and billing in Rajnagar, Madhubani." />
+    <meta property="og:title" content="Hafiz G Silai Machine - Sewing Machines, Parts & Services" />
+    <meta property="og:description" content="Business website and admin management system for Hafiz G Silai Machine - sewing machines, spare parts, repair services, and billing in Rajnagar, Madhubani." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

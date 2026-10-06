@@ -1,0 +1,6 @@
+{
+  "name": "Hafiz G Silai Machine",
+  "description": "Business website and admin management system for Hafiz G Silai Machine - sewing machines, spare parts, repair services, and billing.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
